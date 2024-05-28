@@ -21,20 +21,11 @@ model Collection {
     children     Collection[]           @relation("ChildToParent")
     breadcrumbs  CollectionBreadcrumb[]
     filters      Json
-    translations Translation[]
 }
 
 model CollectionBreadcrumb {
     id           Int        @id @default(autoincrement())
     name         String[]
-    slug         String
-    collectionId Int
-    collection   Collection @relation(fields: [collectionId], references: [id])
-}
-
-model Translation {
-    id           Int        @id @default(autoincrement())
-    name         String
     slug         String
     collectionId Int
     collection   Collection @relation(fields: [collectionId], references: [id])

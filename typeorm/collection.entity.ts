@@ -8,8 +8,7 @@ import {
     OneToMany,
     JoinColumn
   } from 'typeorm';
-  import { CollectionBreadcrumb } from './CollectionBreadcrumb';
-  import { Translation } from './Translation';
+  import { CollectionBreadcrumb } from './breadcrumb';
   
   @Entity()
   export class Collection {
@@ -52,8 +51,5 @@ import {
   
     @Column('jsonb')
     filters: any[];
-  
-    @OneToMany(() => Translation, translation => translation.collection)
-    translations: Translation[];
   }
   
