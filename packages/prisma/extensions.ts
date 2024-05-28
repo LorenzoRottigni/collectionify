@@ -1,4 +1,4 @@
-import type { Collection } from "./../src/types"
+import type { Collection } from "../utils/types"
 
 const findCollectionParent = (hay: Collection, haystack: Collection[]): Collection | null => {
     for (const collection of haystack) {
@@ -15,9 +15,9 @@ const findCollectionParent = (hay: Collection, haystack: Collection[]): Collecti
   }
 
 const xPrisma = prisma.$extends({
-  name: 'myExtension',
+  name: 'Collection',
   model: {
-    user: {
+    collection: {
       async findParent(collection: Collection, collections: Collection[]) {
         return findCollectionParent(collection,collections)
       },
