@@ -24,6 +24,7 @@ jobs:
           git checkout -B ${{ github.sha }}
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
+          git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
         run: npm install --no-save  # Matches your GitLab script
@@ -34,10 +35,15 @@ jobs:
       - name: Build packages
         run: npx lerna run build  # Matches your GitLab script
 
+      - name: Print debug info
+        run: |
+          echo "GITHUB_SHA: ${{ github.sha }}"
+          echo "GITHUB_REF: ${{ github.ref }}"
+          echo "GIT Remote URL: $(git remote get-url origin)"
+
       - name: Check for uncommitted changes (informational only)
         run: |
           if [[ -n $(git status -s) ]]; then
-            git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
             git push origin ${{ github.sha }}
