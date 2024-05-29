@@ -19,10 +19,10 @@ jobs:
 
       - name: Git setup
         run: |
-          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
           git fetch origin
-          git reset --hard ${{ github.sha }}
-          git checkout -B $SHORT_SHA
+          git reset --hard main
+          git checkout -B main
+          git pull
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
 
@@ -60,7 +60,6 @@ jobs:
 
       - name: Check for uncommitted changes (informational only)
         run: |
-          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
           if [[ -n $(git status -s) ]]; then
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
