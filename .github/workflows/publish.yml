@@ -64,7 +64,7 @@ jobs:
           if [[ -n $(git status -s) ]]; then
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
-            git push origin HEAD:$SHORT_SHA
+            git push origin HEAD:main
           fi
 
       - name: Publish packages (from package)
