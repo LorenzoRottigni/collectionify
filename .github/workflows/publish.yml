@@ -49,6 +49,14 @@ jobs:
           echo "GITHUB_SHA: ${{ github.sha }}"
           echo "GITHUB_REF: ${{ github.ref }}"
           echo "GIT Remote URL: $(git remote get-url origin)"
+        
+      - name: Generate version
+        run: |  # Combines steps to generate version
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
+          echo "New Version: $NEW_VERSION"  # Optional: Print the versio
+      - name: Update version (local only)
+        run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version 
 
       - name: Check for uncommitted changes (informational only)
         run: |
@@ -64,12 +72,3 @@ jobs:
           NODE_AUTH_TOKEN: ${{ env.NPM_ACCESS_TOKEN }}
         run: lerna publish from-git --yes --dist-tag latest
 
-
-      # - name: Generate version
-      #   run: |  # Combines steps to generate version
-      #     COMMIT_HASH=$(git rev-parse --short HEAD)
-      #     NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
-      #     echo "New Version: $NEW_VERSION"  # Optional: Print the version
-
-      # - name: Update version (local only)
-      #   run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version 
