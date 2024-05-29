@@ -20,7 +20,7 @@ jobs:
       - name: Git setup
         run: |
           git fetch origin
-          git reset --hard origin/${{ github.ref }}
+          git reset --hard ${{ github.ref }}
           git checkout -B ${{ github.ref }}
           git config --global user.name "CICD GitHub Bot"
           git config --global user.email "cicdbot@github.com"
