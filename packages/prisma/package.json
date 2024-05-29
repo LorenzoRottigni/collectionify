@@ -22,6 +22,7 @@
     "build": "rimraf dist && tsc"
   },
   "dependencies": {
+    "@collectionify/utils": "^0.0.1",
     "@prisma/client": "^5.14.0"
   },
   "devDependencies": {}

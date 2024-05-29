@@ -1,1 +1,2 @@
-# Collectionify
+# Collectionify - !! Package still in development !!
+
