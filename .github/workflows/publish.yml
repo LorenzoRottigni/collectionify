@@ -68,7 +68,7 @@ jobs:
           fi
 
       - name: Publish packages (from package)
-        env:
-          NODE_AUTH_TOKEN: ${{ env.NPM_ACCESS_TOKEN }}
-        run: lerna publish from-package --yes --dist-tag latest
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_ACCESS_TOKEN }}" > ~/.npmrc
+          npx lerna publish from-package --yes --dist-tag latest
 
