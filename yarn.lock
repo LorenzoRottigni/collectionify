@@ -26,14 +26,14 @@
     picocolors "^1.0.0"
 
 "@collectionify/prisma@file:/home/runner/work/collectionify/collectionify/packages/prisma":
-  version "0.0.1"
+  version "0.0.2"
   resolved "file:packages/prisma"
   dependencies:
-    "@collectionify/utils" "^0.0.1"
+    "@collectionify/utils" "0.0.2"
     "@prisma/client" "^5.14.0"
 
-"@collectionify/utils@^0.0.1", "@collectionify/utils@file:/home/runner/work/collectionify/collectionify/packages/utils":
-  version "0.0.1"
+"@collectionify/utils@0.0.2", "@collectionify/utils@file:/home/runner/work/collectionify/collectionify/packages/utils":
+  version "0.0.2"
   resolved "file:packages/utils"
 
 "@hutson/parse-repository-url@^3.0.0":
