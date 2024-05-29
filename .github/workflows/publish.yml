@@ -24,9 +24,14 @@ jobs:
           git checkout -B ${{ github.sha }}
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
-          # git config --global credential.helper store
-          # git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
-          git remote set-url origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
+      
+      - name: SSH setup
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CICD_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
 
       - name: Install dependencies
         run: npm install --no-save 
