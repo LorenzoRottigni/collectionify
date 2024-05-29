@@ -5,11 +5,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['20.9.0']
+        node-version: ['20.9.0']  # Define your desired Node.js versions here
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -17,15 +17,43 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Git setup
+        run: |
+          git fetch origin
+          git reset --hard origin/${{ env.CI_COMMIT_REF_NAME }}
+          git checkout -B ${{ env.CI_COMMIT_REF_NAME }}
+          git config --global user.name "CICD GitHub Bot"
+          git config --global user.email "cicdbot@github.com"
+          git config --global credential.helper store
+          git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
+
       - name: Install dependencies
-        run: npm install 
-      - name: Verify packages
-        run: npx lerna list
+        run: npm install --no-save  # Matches your GitLab script
+
+      - name: Clean packages
+        run: npx lerna clean --yes  # Matches your GitLab script
+
       - name: Build packages
-        run: npx lerna run build
-      - name: Increase version
-        run: lerna version
-      - name: Publish packages
+        run: npx lerna run build  # Matches your GitLab script
+
+      - name: Generate version
+        run: |  # Combines steps to generate version
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
+          echo "New Version: $NEW_VERSION"  # Optional: Print the version
+
+      - name: Update version (local only)
+        run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version  # Matches your GitLab script
+
+      - name: Check for uncommitted changes (informational only)
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            git add .
+            git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
+            git push origin ${{ env.CI_COMMIT_REF_NAME }}
+          fi
+
+      - name: Publish packages (from package)
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: lerna publish from-git
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+        run: lerna publish from-package --yes --dist-tag latest 
