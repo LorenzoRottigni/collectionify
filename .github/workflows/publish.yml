@@ -15,3 +15,11 @@ jobs:
         run: npx lerna list
       - name: Build packages
         run: npx lerna run build
+      - name: Increase version
+        run: lerna version
+      - name: Login to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish
+      - name: Publish packages
+        run: lerna publish from-git
