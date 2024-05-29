@@ -25,7 +25,7 @@ jobs:
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
           git config --global credential.helper store
-          git remove origin
+          git delete origin
           # git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
