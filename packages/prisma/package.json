@@ -5,7 +5,9 @@
   "types": "dist/index.d.ts",
   "version": "0.0.0",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org/",
+    "scope": "@collectionify"
   },
   "license": "MIT",
   "type": "module",
