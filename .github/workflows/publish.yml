@@ -34,19 +34,10 @@ jobs:
       - name: Build packages
         run: npx lerna run build  # Matches your GitLab script
 
-      # - name: Generate version
-      #   run: |  # Combines steps to generate version
-      #     COMMIT_HASH=$(git rev-parse --short HEAD)
-      #     NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
-      #     echo "New Version: $NEW_VERSION"  # Optional: Print the version
-
-      # - name: Update version (local only)
-      #   run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version 
-
       - name: Check for uncommitted changes (informational only)
         run: |
           if [[ -n $(git status -s) ]]; then
-            git remote set-url origin "https://LorenzoRottigni:${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
+            git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
             git push origin ${{ github.sha }}
@@ -56,3 +47,15 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
         run: lerna publish from-git --yes --dist-tag latest 
+
+
+
+
+      # - name: Generate version
+      #   run: |  # Combines steps to generate version
+      #     COMMIT_HASH=$(git rev-parse --short HEAD)
+      #     NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
+      #     echo "New Version: $NEW_VERSION"  # Optional: Print the version
+
+      # - name: Update version (local only)
+      #   run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version 
