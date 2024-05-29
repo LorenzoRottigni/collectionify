@@ -37,14 +37,14 @@ jobs:
       - name: Build packages
         run: npx lerna run build  # Matches your GitLab script
 
-      - name: Generate version
-        run: |  # Combines steps to generate version
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
-          echo "New Version: $NEW_VERSION"  # Optional: Print the version
+      # - name: Generate version
+      #   run: |  # Combines steps to generate version
+      #     COMMIT_HASH=$(git rev-parse --short HEAD)
+      #     NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
+      #     echo "New Version: $NEW_VERSION"  # Optional: Print the version
 
-      - name: Update version (local only)
-        run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version  # Matches your GitLab script
+      # - name: Update version (local only)
+      #   run: lerna version "$NEW_VERSION" --yes --no-push --exact --force-publish --no-git-tag-version 
 
       - name: Check for uncommitted changes (informational only)
         run: |
@@ -57,4 +57,4 @@ jobs:
       - name: Publish packages (from package)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-        run: lerna publish from-package --yes --dist-tag latest 
+        run: lerna publish from-git --yes --dist-tag latest 
