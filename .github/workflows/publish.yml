@@ -18,6 +18,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Git setup
+        env:
+          CICD_ACCESS_TOKEN: ${{ secrets.CICD_ACCESS_TOKEN }}
         run: |
           git fetch origin
           git reset --hard ${{ github.sha }}
