@@ -25,7 +25,8 @@ jobs:
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
           git config --global credential.helper store
-          git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
+          git remove origin
+          # git remote set-url origin "https://${{ secrets.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
         run: npm install --no-save 
