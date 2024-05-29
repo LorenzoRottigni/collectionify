@@ -20,8 +20,8 @@ jobs:
       - name: Git setup
         run: |
           git fetch origin
-          git reset --hard origin/${{ env.CI_COMMIT_REF_NAME }}
-          git checkout -B ${{ env.CI_COMMIT_REF_NAME }}
+          git reset --hard origin/${{ github.ref }}
+          git checkout -B ${{ github.ref }}
           git config --global user.name "CICD GitHub Bot"
           git config --global user.email "cicdbot@github.com"
           git config --global credential.helper store
@@ -50,7 +50,7 @@ jobs:
           if [[ -n $(git status -s) ]]; then
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
-            git push origin ${{ env.CI_COMMIT_REF_NAME }}
+            git push origin ${{ github.ref }}
           fi
 
       - name: Publish packages (from package)
