@@ -22,8 +22,8 @@ jobs:
           git fetch origin
           git reset --hard ${{ github.sha }}
           git checkout -B ${{ github.sha }}
-          git config --global user.name "CICD GitHub Bot"
-          git config --global user.email "cicdbot@github.com"
+          # git config --global user.name "CICD GitHub Bot"
+          # git config --global user.email "cicdbot@github.com"
           git config --global credential.helper store
           git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
 
