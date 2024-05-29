@@ -24,8 +24,8 @@ jobs:
           git checkout -B ${{ github.sha }}
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
-          git config --global credential.helper store
-          git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
+          # git config --global credential.helper store
+          # git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
           git remote set-url origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
