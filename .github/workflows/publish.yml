@@ -27,7 +27,7 @@ jobs:
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
           git remote remove origin
-          git remote add origin "https://${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
+          git remote add origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
         run: npm install --no-save  # Matches your GitLab script
