@@ -26,7 +26,6 @@ jobs:
           git config --global user.email "cicdbot@github.com"
           # git config --global credential.helper store
           # git config --global github.accesstoken ${{ env.CICD_ACCESS_TOKEN }}
-          git remote set-url origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
 
       - name: Install dependencies
         run: npm install --no-save  # Matches your GitLab script
@@ -49,6 +48,7 @@ jobs:
       - name: Check for uncommitted changes (informational only)
         run: |
           if [[ -n $(git status -s) ]]; then
+            git remote set-url origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
             git push origin ${{ github.sha }}
