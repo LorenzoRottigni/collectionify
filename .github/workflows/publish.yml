@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['20.9.0']  # Define your desired Node.js versions here
+        node-version: ['20.9.0']
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Node.js Runtime ${{ matrix.node-version }} Setup
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Git setup
+      - name: Setup Git Client
         run: |
           git fetch origin
           git reset --hard main
@@ -26,7 +26,7 @@ jobs:
           git config --global user.name "LorenzoRottigni"
           git config --global user.email "lorenzo@rottigni.net"
 
-      - name: SSH setup
+      - name: SSH Client Setup
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.CICD_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
@@ -35,30 +35,19 @@ jobs:
           ssh-add ~/.ssh/id_rsa
           git remote set-url origin "git@github.com:LorenzoRottigni/collectionify.git"
 
-      - name: Install dependencies
+      - name: Lerna Dependencies Setup
         run: npm install --no-save 
 
-      - name: Clean packages
+      - name: Lerna Cleaning
         run: npx lerna clean --yes
 
-      - name: Build packages
+      - name: Lerna Build
         run: npx lerna run build
 
-      - name: Print debug info
-        run: |
-          echo "GITHUB_SHA: ${{ github.sha }}"
-          echo "GITHUB_REF: ${{ github.ref }}"
-          echo "GIT Remote URL: $(git remote get-url origin)"
-        
-      - name: Generate version
-        run: |  # Combines steps to generate version
-          COMMIT_HASH=$(git rev-parse --short HEAD)
-          NEW_VERSION="0.0.1-${COMMIT_HASH:0:7}"
-          echo "New Version: $NEW_VERSION"  # Optional: Print the versio
-      - name: Update version (local only)
+      - name: Lerna Versioning
         run: lerna version patch --yes --no-push --exact --force-publish --no-git-tag-version 
 
-      - name: Check for uncommitted changes (informational only)
+      - name: Git Repository Sync
         run: |
           if [[ -n $(git status -s) ]]; then
             git add .
@@ -66,7 +55,7 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Publish packages (from package)
+      - name: Lerna Publishment
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_ACCESS_TOKEN }}" > ~/.npmrc
           npx lerna publish from-package --yes --dist-tag latest
