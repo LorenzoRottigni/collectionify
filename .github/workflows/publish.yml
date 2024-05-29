@@ -48,7 +48,8 @@ jobs:
       - name: Check for uncommitted changes (informational only)
         run: |
           if [[ -n $(git status -s) ]]; then
-            git remote set-url origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
+            git remote remove origin
+            git remote add origin "https://LorenzoRottigni:${{ env.CICD_ACCESS_TOKEN }}@github.com/LorenzoRottigni/collectionify.git"
             git add .
             git commit -m "chore: :bookmark: CI/CD lerna versioning [skip ci]"
             git push origin ${{ github.sha }}
